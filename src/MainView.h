@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include <QGridLayout>
 #include <QListView>
-#include <QStringListModel>
+#include <QScrollArea>
 
 #include "ImageListModel.h"
 #include "ThumbnailDelegate.h"

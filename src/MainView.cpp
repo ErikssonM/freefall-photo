@@ -14,6 +14,13 @@ void MainView::createLayout()
   openFile = new QPushButton("File");
   openFolder = new QPushButton("Folder");
 
+  //Local
+  QScrollArea *scroll = new QScrollArea;
+  scroll->setBackgroundRole(QPalette::Dark);
+  image->setScaledContents(true);
+  image->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+  scroll->setWidget(image);
+
   view = new QListView();
   view->setItemDelegate(new ThumbnailDelegate);
   view->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -22,10 +29,15 @@ void MainView::createLayout()
 
   layout->addWidget(openFile, 0, 0);
   layout->addWidget(openFolder, 0, 1);
-  layout->addWidget(image, 0, 2, 2, 1);
+  //layout->addWidget(image, 0, 2, 2, 1);
+  layout->addWidget(scroll, 0, 2, 2, 1);
   layout->addWidget(view, 1, 0, 1, 2);
 
   this->setLayout(layout);
+
+  view->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
+  openFile->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
+  openFolder->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
 }
 
 void MainView::createConnections()
@@ -51,7 +63,9 @@ void MainView::imageSelected(const QModelIndex &current,
 {
   if (current.data().canConvert<ImageItem>()) {
     ImageItem selectedImage = qvariant_cast<ImageItem>(current.data());
-    image->setPixmap(QPixmap::fromImage(selectedImage.getImage()));
+    QPixmap pix = QPixmap::fromImage(selectedImage.getImage());
+    image->setPixmap(pix);
+    image->resize(pix.size());
   } else {
     qDebug("Could not convert image");
   }

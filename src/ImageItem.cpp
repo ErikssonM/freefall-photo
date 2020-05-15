@@ -33,5 +33,5 @@ void ImageItem::paintThumbnail(QPainter *painter, const QRect &rect,
 
 QSize ImageItem::sizeHint() const
 {
-  return QSize(200, 100);
+  return QSize(100, 100);
 }
