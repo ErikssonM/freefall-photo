@@ -1,0 +1,4 @@
+test_resources/*
+bin/*
+build/*
+Makefile
