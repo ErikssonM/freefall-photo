@@ -24,6 +24,7 @@ private:
 
   ImageListModel *model;
   QListView *view;
+  QItemSelectionModel *select;
   //ThumbnailDelegate *delegate;
 
   QGridLayout *layout;
@@ -32,6 +33,10 @@ private:
   QLabel *placeholder;
   QPushButton *openFile;
   QPushButton *openFolder;
+
+private slots:
+  void imageSelected(const QModelIndex &current,
+                     const QModelIndex &previous);
 };
 
 #endif

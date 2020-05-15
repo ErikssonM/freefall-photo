@@ -38,5 +38,21 @@ void MainView::createConnections()
   model->appendRow(
     QVariant::fromValue(ImageItem("/home/martin/Projects/Image/test_resource/3.JPG")));
   view->setModel(model);
-  view->setSelectionModel(new QItemSelectionModel(model));
+
+  select = new QItemSelectionModel(model);
+  view->setSelectionModel(select);
+
+  connect(select, &QItemSelectionModel::currentChanged,
+          this, &MainView::imageSelected);
+}
+
+void MainView::imageSelected(const QModelIndex &current,
+                             const QModelIndex &previous)
+{
+  if (current.data().canConvert<ImageItem>()) {
+    ImageItem selectedImage = qvariant_cast<ImageItem>(current.data());
+    image->setPixmap(QPixmap::fromImage(selectedImage.getImage()));
+  } else {
+    qDebug("Could not convert image");
+  }
 }
