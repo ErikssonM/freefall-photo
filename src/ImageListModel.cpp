@@ -64,7 +64,6 @@ bool ImageListModel::appendRow(const QVariant &value)
     qDebug("currentCount %i", currentCount);
     if (insert)
       images[currentCount] = image;
-      //images[currentCount + 1] = image;
     //TODO: Use setData instead
     return insert;
   }

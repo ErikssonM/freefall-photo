@@ -10,6 +10,7 @@
 
 #include "ImageListModel.h"
 #include "ThumbnailDelegate.h"
+#include "DisplayArea.h"
 
 class MainView : public QWidget
 {
@@ -29,14 +30,10 @@ private:
 
   QGridLayout *layout;
 
-  QLabel *image;
+  DisplayArea *display;
   QLabel *placeholder;
   QPushButton *openFile;
   QPushButton *openFolder;
-
-private slots:
-  void imageSelected(const QModelIndex &current,
-                     const QModelIndex &previous);
 };
 
 #endif
