@@ -29,8 +29,6 @@ public:
 
 private:
   std::vector<ImageItem> images;
-  //std::vector<OpenImage> images;
-  //std::vector<QString> images;
 };
 
 #endif

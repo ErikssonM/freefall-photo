@@ -16,6 +16,9 @@ void MainView::createLayout()
 
   view = new QListView();
   view->setItemDelegate(new ThumbnailDelegate);
+  view->setSelectionMode(QAbstractItemView::SingleSelection);
+  view->setSelectionBehavior(QAbstractItemView::SelectRows);
+  //view->setEditTriggers(QAbstractItemView::SelectedClicked);
 
   layout->addWidget(openFile, 0, 0);
   layout->addWidget(openFolder, 0, 1);
@@ -35,4 +38,5 @@ void MainView::createConnections()
   model->appendRow(
     QVariant::fromValue(ImageItem("/home/martin/Projects/Image/test_resource/3.JPG")));
   view->setModel(model);
+  view->setSelectionModel(new QItemSelectionModel(model));
 }

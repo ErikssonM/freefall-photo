@@ -7,7 +7,8 @@ ImageItem::ImageItem(const QString &path)
   QImageReader reader(path);
   reader.setAutoTransform(true);
   image = reader.read();
-  thumbnail = image.scaled(100, 100, Qt::KeepAspectRatio);
+  //TODO:Add padding to thumbnail image
+  thumbnail = image.scaled(100, 100, Qt::KeepAspectRatioByExpanding);
   qDebug("Read image");
 }
 
@@ -22,13 +23,15 @@ void ImageItem::paintThumbnail(QPainter *painter, const QRect &rect,
   painter->save();
 
   painter->setRenderHint(QPainter::Antialiasing, true);
-  //painter->drawText(rect.x(), rect.y(), filePath);
-  painter->drawImage(rect, thumbnail);
+
+  QSize thumbnailSize = thumbnail.size();
+  QRect place = QRect(rect.x(), rect.y(), thumbnailSize.width(), thumbnailSize.height());
+  painter->drawImage(place, thumbnail);
   
   painter->restore();
 }
 
 QSize ImageItem::sizeHint() const
 {
-  return QSize(100, 100);
+  return QSize(200, 100);
 }

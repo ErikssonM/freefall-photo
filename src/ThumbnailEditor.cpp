@@ -3,6 +3,7 @@
 ThumbnailEditor::ThumbnailEditor(QWidget *parent) : QWidget(parent)
 {
   //Nothing?
+  qDebug("Created new Editor");
 }
 
 void ThumbnailEditor::paintEvent(QPaintEvent *event)

@@ -6,8 +6,10 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
   if (index.data().canConvert<ImageItem>()) {
     ImageItem image = qvariant_cast<ImageItem>(index.data());
 
-    if (option.state & QStyle::State_Selected)
+    if (option.state & QStyle::State_Selected) {
+      qDebug("Painting selection");
       painter->fillRect(option.rect, option.palette.highlight());
+    }
 
     image.paintThumbnail(painter, option.rect, option.palette);
   } else {

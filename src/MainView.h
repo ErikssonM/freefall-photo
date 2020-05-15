@@ -22,11 +22,7 @@ private:
   void createLayout();
   void createConnections();
 
-  //SomeKindOfImageModel
-  //ThumbnailView (Should probably be inside widget)
-
   ImageListModel *model;
-  //QStringListModel *model;
   QListView *view;
   //ThumbnailDelegate *delegate;
 

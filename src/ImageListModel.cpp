@@ -19,7 +19,7 @@ QVariant ImageListModel::data(const QModelIndex &index, int role) const
 
 Qt::ItemFlags ImageListModel::flags(const QModelIndex &index) const
 {
-  return Qt::ItemIsEditable;
+  return QAbstractListModel::flags(index);
 }
 
 bool ImageListModel::setData(const QModelIndex &index, const QVariant &value, int role)
