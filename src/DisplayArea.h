@@ -23,7 +23,7 @@ public:
 public slots:
   void imageSelected(const QModelIndex &current,
                      const QModelIndex &previous);
-  void zoom(float factor);
+  void zoom(float factor, QPointF mousePos);
 
 protected:
   void paintEvent(QPaintEvent *e) override;
@@ -34,11 +34,10 @@ protected:
 
 private:
   QPixmap pixmap;
-  //ImageItem *image;
 
-  QRectF rect;
+  QRect pixRect;
   QPointF ref;
-  QPointF delta;
+  QPointF center;
   float scale;
 };
 

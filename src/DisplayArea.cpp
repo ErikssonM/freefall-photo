@@ -5,13 +5,13 @@ DisplayArea::DisplayArea(QWidget *parent)
   scale = 1.0;
 }
 
-void DisplayArea::paintEvent (QPaintEvent *e)
+void DisplayArea::paintEvent(QPaintEvent *e)
 {
   QPainter p{this};
-  p.translate(rect.center());
+  p.fillRect(this->rect(), Qt::darkGray);
   p.scale(scale, scale);
-  p.translate(delta);
-  p.drawPixmap(rect.topLeft(), pixmap);
+  p.translate(center);
+  p.drawPixmap(pixRect, pixmap);
 }
 
 void DisplayArea::imageSelected(const QModelIndex &current,
@@ -20,8 +20,7 @@ void DisplayArea::imageSelected(const QModelIndex &current,
   if (current.data().canConvert<ImageItem>()) {
     ImageItem selectedImage = qvariant_cast<ImageItem>(current.data());
     pixmap = QPixmap::fromImage(selectedImage.getImage());
-    rect = pixmap.rect();
-    rect.translate(rect.center());
+    pixRect = pixmap.rect();
     update();
   } else {
     qDebug("Attempting to convert ImageItem, but cannot");
@@ -36,7 +35,7 @@ void DisplayArea::mousePressEvent(QMouseEvent *e)
 
 void DisplayArea::mouseMoveEvent(QMouseEvent *e)
 {
-  delta += (e->pos() - ref) * 1.0/scale;
+  center += (e->pos() - ref) * 1.0/scale;
   ref = e->pos();
   update();
 }
@@ -49,25 +48,34 @@ void DisplayArea::mouseReleaseEvent(QMouseEvent *e)
 void DisplayArea::wheelEvent(QWheelEvent *e)
 {
   QPoint numDegrees = e->angleDelta();
+  QPointF mousePos = e->posF();
 
   if (!numDegrees.isNull()) {
     float y = numDegrees.y();
     if (y < 0) {
-      zoom(1.1);
+      zoom(1.1, mousePos);
     } else if (y > 0) {
-      zoom(0.9);
+      zoom(0.9, mousePos);
     }
   }
   e->accept();
 }
 
-void DisplayArea::zoom(float factor)
+void DisplayArea::zoom(float factor, QPointF mousePos)
 {
-  scale *= factor;
+  float newScale = scale * factor;
+  if (newScale < 0.1) {
+    scale = 0.1;
+  } else if (newScale > 4.0) {
+    scale = 4.0;
+  } else {
+    scale = newScale;
+    center += mousePos * (1.0 - factor) * 1.0/scale;
+  }
   update();
 }
 
 QSize DisplayArea::sizeHint() const
 {
-  return {400, 400};
+  return {800, 800};
 }
